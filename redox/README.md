@@ -179,6 +179,14 @@ In the [firmware/](https://github.com/mattdibi/redox-keyboard/tree/master/redox/
 ```sh
 avrdude -p atmega32u4 -P $(COM_PORT) -c avr109 -U flash:w:redox_rev1_default.hex
 ```
+> :note: Here, generally you would replace the `$(COM_PORT)` with `/dev/ttyACM0` since that is what the Pro Micro will appear as when plugged in.
+
+If you are using an unflashed Pro Micro, check to see if `/dev/ttyACM0` has appeared. If a Pro Micro is already flashed with QMK, it will not appear as `/dev/ttyACM0` anymore. 
+
+If you had already flashed the firmware before, and if you are uploading the precompiled firmware binary (i.e. the .hex file) directly with avrdude (which is what the above command does), you need to first press the reset button on the PCB and then immediately run the command. Not pressing the reset button means that the `/dev/ttyACM0` won't appear and the avrdude command will fail. Pressing the reset button and waiting too long before running the commmand will cause the command to fail because it can't detect `/dev/ttyACM0`. 
+
+Make sure you read the documentation for QMK for creating your custom keymaps and flashing the firmware with that. 
+
 
 ### Setting EE_hands to use either hands as master
 If you define `EE_HANDS` in your `config.h`, you will need to set the EEPROM for the left and right halves.
